@@ -1,0 +1,22 @@
+version: '3.5'
+
+services:
+  rabbidmq:
+    container_name: rabbitmq
+    #    restart: always
+    hostname: 'rabbid'
+    build:
+      context: .
+    volumes:
+      - ./data:/var/lib/rabbitmq/mnesia/:delegated
+      - ./logs:/data/logs/rabbitmq
+    ports:
+      - ${AMQP_PORT}:5672
+      - ${HTTP_PORT}:15672
+    networks:
+      - rabbit
+    environment:
+      - RABBITMQ_CONFIG_FILE=/etc/rabbitmq/rabbitmq.conf
+
+networks:
+  rabbit:
